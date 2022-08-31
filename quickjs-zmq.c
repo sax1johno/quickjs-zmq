@@ -89,7 +89,7 @@ static JSValue js_zmq_set_context_option(JSContext* ctx, JSValueConst this_val, 
     int32_t optionName;
     JS_ToInt32(ctx, &optionName, argv[1]);
     int32_t optionValue;
-    JS_ToInt32(ctx, &optionValue, argv[1]);
+    JS_ToInt32(ctx, &optionValue, argv[2]);
     int returnCode = zmq_ctx_set(zmqContextPtr, optionName, optionValue);
     return JS_NewInt32(ctx, returnCode);
 }
@@ -172,6 +172,32 @@ static JSValue js_zmq_strerror(JSContext* ctx, JSValueConst this_val, int argc, 
 
 static JSValue js_zmq_errno(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
     return JS_NewInt32(ctx, zmq_errno());
+}
+
+static JSValue js_zmq_get_socket_option(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    void* zmqSocketPtr;
+    JS_TO_UINTPTR_T(ctx, &zmqSocketPtr, argv[0]);
+    int32_t optionName;
+    JS_ToInt32(ctx, &optionName, argv[1]);
+    void* optionValue;
+    JS_TO_UINTPTR_T(ctx, &optionValue, argv[2]);
+    size_t optionValueLength;
+    JS_TO_UINTPTR_T(ctx, &optionValueLength, argv[3]);
+    int returnCode = zmq_getsockopt(zmqSocketPtr, optionName, optionValue, optionValueLength);
+    return JS_NewInt32(ctx, returnCode);
+}
+
+static JSValue js_zmq_set_socket_option(JSContext* ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    void* zmqSocketPtr;
+    JS_TO_UINTPTR_T(ctx, zmqSocketPtr, argv[0]);
+    int32_t optionName;
+    JS_ToInt32(ctx, &optionName, argv[1]);
+    int32_t optionValue;
+    JS_TO_UINTPTR_T(ctx, &optionValue, argv[2]);
+    size_t optionValueLength;
+    JS_TO_UINTPTR_T(ctx, &optionValueLength, argv[3]);
+    int returnCode = zmq_setsockopt(zmqSocketPtr, optionName, optionValue, optionValueLength);
+    return JS_NewInt32(ctx, returnCode);
 }
 
 
