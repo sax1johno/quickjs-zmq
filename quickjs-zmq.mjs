@@ -45,6 +45,7 @@ export const ZMQ_XPUB=9
 export const ZMQ_XSUB=10
 export const ZMQ_STREAM=11
 
+
 export class Socket {
     static context = zmq.createContext();
     static errorCodeToString(errorCode) {
@@ -163,7 +164,24 @@ export class Socket {
                 reject(returnValue);
             }
         });
-
+    }
+    
+    getContextOption(optionName) {
+        return zmq.getContextOption(this.context, optionName)
     }
 
+    setContextOption(optionName, optionValue) {
+        return zmq.setContextOption(this.context, optionName, optionValue);
+    }
+
+    getSocketOption(optionName) {
+        var optionValue;
+        var returnCode = zmq.getSocketOption(this.socket, optionName, optionValue);
+        return optionValue;
+    }
+
+    setSocketOption(optionName, optionValue) {
+        var returnCode = zmq.getSocketOption(this.socket, optionName, optionValue);
+        return returnCode;
+    }
 }
