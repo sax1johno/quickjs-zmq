@@ -1,2 +1,2 @@
 zmq: quickjs-zmq.c
-	gcc quickjs-zmq.c ../quickjs/.obj/quickjs.o ../quickjs/.obj/quickjs-libc.o -g -o quickjs-zmq.so -ldl -lzmq -lz -shared -fPIC 
+	gcc -Wall -g quickjs-zmq.c ../quickjs/.obj/quickjs.o ../quickjs/.obj/quickjs-libc.o -ldl -lzmq -lczmq -lz -shared -fPIC -o quickjs-zmq.so

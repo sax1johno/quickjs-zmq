@@ -129,196 +129,260 @@ static JSValue js_zmq_bind_socket(JSContext* ctx, JSValueConst this_val, int arg
  * ZSock API methods.
  * ZSock API has high-level class API wrapping sockets without contexts or sessions.
  **************************************************************/
-// static JSValue js_zmq_zsock_new(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     int32_t socketTypeInt;
-//     JS_ToInt32(ctx, &socketTypeInt, argv[0]);
-//     zsock_t* sock = zsock_new(socketTypeInt);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    int32_t socketTypeInt;
+    JS_ToInt32(ctx, &socketTypeInt, argv[0]);
+    zsock_t* sock = zsock_new(socketTypeInt);
+    return JS_NEW_UINTPTR_T(ctx, sock);
+}
 
-// static JSValue js_zmq_zsock_new_pub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_pub(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_pub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_pub(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_sub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;
-//     JSValueConst subscribeVal = argv[1];
-//     const char* subscribe = NULL;
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     subscribe = JS_ToCString(ctx, subscribeVal);
-//     zsock_t* sock = zsock_new_sub(endpoint, subscribe);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_sub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;
+    JSValueConst subscribeVal = argv[1];
+    const char* subscribe = NULL;
+    endpoint = JS_ToCString(ctx, endpointVal);
+    subscribe = JS_ToCString(ctx, subscribeVal);
+    zsock_t* sock = zsock_new_sub(endpoint, subscribe);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_req(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_req(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_req(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_req(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_rep(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_rep(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_rep(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_rep(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_dealer(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_dealer(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_dealer(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_dealer(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_router(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_router(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_router(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_router(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_push(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_push(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_push(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_push(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_xpub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_xpub(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_xpub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_xpub(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_xsub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_xsub(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);    
-// }
+static JSValue js_zmq_zsock_new_xsub(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_xsub(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);    
+}
 
-// static JSValue js_zmq_zsock_new_pair(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_pair(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);
-// }
+static JSValue js_zmq_zsock_new_pair(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_pair(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);
+}
 
-// static JSValue js_zmq_zsock_new_stream(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_stream(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);
-// }
+static JSValue js_zmq_zsock_new_stream(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_stream(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);
+}
 
-// static JSValue js_zmq_zsock_new_pull(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     JSValueConst endpointVal = argv[0];   
-//     const char *endpoint = NULL;    
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     zsock_t* sock = zsock_new_pull(endpoint);
-//     return JS_NEW_UINTPTR_T(ctx, sock);
-// }
+static JSValue js_zmq_zsock_new_pull(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    JSValueConst endpointVal = argv[0];   
+    const char *endpoint = NULL;    
+    endpoint = JS_ToCString(ctx, endpointVal);
+    zsock_t* sock = zsock_new_pull(endpoint);
+    return JS_NEW_UINTPTR_T(ctx, sock);
+}
 
-// static JSValue js_zmq_zsock_destroy(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     zsock_destroy(&self);
-//     return JS_UNDEFINED;
-// }
+static JSValue js_zmq_zsock_destroy(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    zsock_destroy(&self);
+    return JS_UNDEFINED;
+}
 
-// // We only pass in an already-created endpoint (using javascript templates) 
-// // rather than the formatting string.
-// static JSValue js_zmq_zsock_bind(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     JSValueConst endpointVal = argv[1];
-//     const char *endpoint = NULL;
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     int port = zsock_bind(self, endpoint);
-//     return JS_NewInt32(ctx, port);
-// }
+// We only pass in an already-created endpoint (using javascript templates) 
+// rather than the formatting string.
+static JSValue js_zmq_zsock_bind(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst endpointVal = argv[1];
+    const char *endpoint = NULL;
+    endpoint = JS_ToCString(ctx, endpointVal);
+    int port = zsock_bind(self, endpoint);
+    return JS_NewInt32(ctx, port);
+}
 
-// static JSValue js_zmq_zsock_endpoint(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     // JSValueConst endpointVal = argv[1];
-//     const char *endpoint = zsock_endpoint(self);
-//     // endpoint = JS_ToCString(ctx, endpointVal);
-//     // int port = zsock_bind(self, endpoint);
-//     return JS_NewString(ctx, endpoint);
-// }
+static JSValue js_zmq_zsock_endpoint(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    // JSValueConst endpointVal = argv[1];
+    const char *endpoint = zsock_endpoint(self);
+    // endpoint = JS_ToCString(ctx, endpointVal);
+    // int port = zsock_bind(self, endpoint);
+    return JS_NewString(ctx, endpoint);
+}
 
-// // We only pass in an already-created endpoint (using javascript templates) 
-// // rather than the formatting string.
-// static JSValue js_zmq_zsock_unbind(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     JSValueConst endpointVal = argv[1];
-//     const char *endpoint = NULL;
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     int returnCode = zsock_unbind(self, endpoint);
-//     return JS_NewInt32(ctx, returnCode);
-// }
+// We only pass in an already-created endpoint (using javascript templates) 
+// rather than the formatting string.
+static JSValue js_zmq_zsock_unbind(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst endpointVal = argv[1];
+    const char *endpoint = NULL;
+    endpoint = JS_ToCString(ctx, endpointVal);
+    int returnCode = zsock_unbind(self, endpoint);
+    return JS_NewInt32(ctx, returnCode);
+}
 
 
-// // We only pass in an already-created endpoint (using javascript templates) 
-// // rather than the formatting string.
-// static JSValue js_zmq_zsock_connect(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     JSValueConst endpointVal = argv[1];
-//     const char *endpoint = NULL;
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     // int returnCode = zsock_connect(self, endpoint);
-//     int returnCode = 0;
-//     return JS_NewInt32(ctx, returnCode);
-// }
+// We only pass in an already-created endpoint (using javascript templates) 
+// rather than the formatting string.
+static JSValue js_zmq_zsock_connect(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst endpointVal = argv[1];
+    const char *endpoint = NULL;
+    endpoint = JS_ToCString(ctx, endpointVal);
+    // int returnCode = zsock_connect(self, endpoint);
+    int returnCode = 0;
+    return JS_NewInt32(ctx, returnCode);
+}
 
-// // We only pass in an already-created endpoint (using javascript templates) 
-// // rather than the format string.
-// static JSValue js_zmq_zsock_disconnect(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     JSValueConst endpointVal = argv[1];
-//     const char *endpoint = NULL;
-//     endpoint = JS_ToCString(ctx, endpointVal);
-//     int returnCode = zsock_disconnect(self, endpoint);
-//     return JS_NewInt32(ctx, returnCode);
-// }
+// We only pass in an already-created endpoint (using javascript templates) 
+// rather than the format string.
+static JSValue js_zmq_zsock_disconnect(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst endpointVal = argv[1];
+    const char *endpoint = NULL;
+    endpoint = JS_ToCString(ctx, endpointVal);
+    int returnCode = zsock_disconnect(self, endpoint);
+    return JS_NewInt32(ctx, returnCode);
+}
 
-// static JSValue js_zmq_zsock_attach(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     zsock_t* self;
-//     JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     JSValueConst endpointVal = argv[1];
-//     const char *endpoints = NULL;
-//     endpoints = JS_ToCString(ctx, endpointVal);
-//     bool serverish = JS_ToBool(ctx, argv[2]);
-//     int returnCode = zsock_attach(self, endpoints, serverish);
-//     return JS_NewInt32(ctx, returnCode);
-// }
+static JSValue js_zmq_zsock_attach(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst endpointVal = argv[1];
+    const char *endpoints = NULL;
+    endpoints = JS_ToCString(ctx, endpointVal);
+    bool serverish = JS_ToBool(ctx, argv[2]);
+    int returnCode = zsock_attach(self, endpoints, serverish);
+    return JS_NewInt32(ctx, returnCode);
+}
 
-// static JSValue js_zmq_zsock_type_str(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
-//     // zsock_t* self;
-//     // JS_TO_UINTPTR_T(ctx, self, argv[0]);
-//     // return JS_NewString(ctx, zsock_type_str(self));
-//     return JS_UNDEFINED;
-// }
+static JSValue js_zmq_zsock_type_str(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    return JS_NewString(ctx, zsock_type_str(self));
+    // return JS_UNDEFINED;
+}
+
+/**
+ * Sends the given message over a zsock.
+ * Could add additional methods or shapes via the "picture" argument in the future
+ */
+static JSValue js_zmq_zsock_send(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    JSValueConst messageVal = argv[1];
+    int returnValue;    
+    
+    // if (JS_IsInteger(messageVal)) {
+        // int message;
+        // JS_ToInt32(ctx, &message, messageVal);
+        // returnValue = zsock_send(self, "i", message);
+    // } else (JS_IsString(messageVal)) {
+        char* message = NULL;
+        JS_ToCString(ctx, messageVal);
+        returnValue = zsock_send(self, "s", message);
+    // } 
+    // JSValueConst pictureVal = argv[1];
+    // JSValueConst messageVal = argv[2];
+    // const char *picture = NULL;
+    // const char* message = NULL;
+    // picture = JS_ToCString(ctx, pictureVal);
+
+    // message = JS_ToCString(ctx, messageVal);
+//      u = uint (deprecated)    
+    return JS_NewInt32(ctx, returnValue);
+}
+
+/**
+ * Sends the given message over a zsock.
+ * Could add additional methods or shapes via the "picture" argument in the future
+ */
+static JSValue js_zmq_zsock_recv(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    char* receivedMessage = NULL;
+    int returnCode = zsock_recv(self, "s", &receivedMessage);
+    // TODO: Throw exception if returnCode != 0
+    return JS_NewString(ctx, receivedMessage);
+}
+
+static JSValue js_zmq_zsock_flush(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    zsock_flush(self);
+    return JS_UNDEFINED;
+}
+
+static JSValue js_zmq_zsock_is(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    bool result = zsock_is(self);
+    return JS_NewBool(ctx, result);
+}
+
+static JSValue js_zmq_zsock_resolve(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
+    zsock_t* self;
+    JS_TO_UINTPTR_T(ctx, self, argv[0]);
+    zsock_resolve(self);
+    return JS_UNDEFINED;
+}
 
 // // zmsg Functions
 // static JSValue js_zmq_zmsg_new(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
@@ -432,8 +496,6 @@ static JSValue js_zmq_bind_socket(JSContext* ctx, JSValueConst this_val, int arg
 // }
 
 
-
-
 static JSValue js_zmq_connect_socket(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
     void* zmqSocketPtr;
     JSValueConst addressVal = argv[1];   
@@ -444,12 +506,13 @@ static JSValue js_zmq_connect_socket(JSContext* ctx, JSValueConst this_val, int 
     return JS_NewInt32(ctx, returnCode);
 }
 
-static const int RECV_BUFFER_SIZE=1024;
+static const int RECV_BUFFER_SIZE=65535;
 
 static JSValue js_zmq_recv_socket(JSContext* ctx, JSValueConst this_val, int argc, JSValue* argv) {
     void* zmqSocketPtr;
     JS_TO_UINTPTR_T(ctx, &zmqSocketPtr, argv[0]);
     char buffer[RECV_BUFFER_SIZE];
+    memset(&buffer, 0, RECV_BUFFER_SIZE); // Clear the buffer before use.
     int returnCode = zmq_recv(zmqSocketPtr, buffer, RECV_BUFFER_SIZE, 0);
     if (returnCode < 0) {
         const char* errorString = zmq_strerror(zmq_errno());
@@ -465,7 +528,7 @@ static JSValue js_zmq_send_socket(JSContext* ctx, JSValueConst this_val, int arg
     JS_TO_UINTPTR_T(ctx, &zmqSocketPtr, argv[0]);
     JSValueConst messageVal = argv[1];
     const char *message = NULL;
-    JS_TO_UINTPTR_T(ctx, &zmqSocketPtr, argv[0]);
+    // JS_TO_UINTPTR_T(ctx, &zmqSocketPtr, argv[0]);
     size_t messageLength;
     message = JS_ToCStringLen(ctx, &messageLength, messageVal);
     int response = zmq_send(zmqSocketPtr, message, messageLength, 0);
@@ -528,21 +591,27 @@ static JSCFunctionListEntry funcs[] = {
     JS_CFUNC_DEF("connectSocket", 2, js_zmq_connect_socket),
     JS_CFUNC_DEF("strerror", 1, js_zmq_strerror),
     JS_CFUNC_DEF("errno", 0, js_zmq_errno),
-    // JS_CFUNC_DEF("zsock_new", 1, js_zmq_zsock_new),
-    // JS_CFUNC_DEF("zsock_new_pub", 1, js_zmq_zsock_new_pub),
-    // JS_CFUNC_DEF("zsock_new_sub", 2, js_zmq_zsock_new_sub),
-    // JS_CFUNC_DEF("zsock_new_req", 1, js_zmq_zsock_new_req),
-    // JS_CFUNC_DEF("zsock_new_rep", 1, js_zmq_zsock_new_rep),
-    // JS_CFUNC_DEF("zsock_new_dealer", 1, js_zmq_zsock_new_dealer),
-    // JS_CFUNC_DEF("zsock_new_router", 1, js_zmq_zsock_new_router),
-    // JS_CFUNC_DEF("zsock_new_push", 1, js_zmq_zsock_new_push),
-    // JS_CFUNC_DEF("zsock_new_xpub", 1, js_zmq_zsock_new_xpub),
-    // JS_CFUNC_DEF("zsock_new_xsub", 1, js_zmq_zsock_new_sub),
-    // JS_CFUNC_DEF("zsock_new_pair", 1, js_zmq_zsock_new_pair),
-    // JS_CFUNC_DEF("zsock_new_stream", 1, js_zmq_zsock_new_stream),
-    // JS_CFUNC_DEF("zsock_new_pull", 1, js_zmq_zsock_new_pull),
-    // JS_CFUNC_DEF("zsock_destroy", 1, js_zmq_zsock_destroy),
-    // JS_CFUNC_DEF("zsock_connect", 2, js_zmq_zsock_connect)
+    JS_CFUNC_DEF("zsock_new", 1, js_zmq_zsock_new),
+    JS_CFUNC_DEF("zsock_new_pub", 1, js_zmq_zsock_new_pub),
+    JS_CFUNC_DEF("zsock_new_sub", 2, js_zmq_zsock_new_sub),
+    JS_CFUNC_DEF("zsock_new_req", 1, js_zmq_zsock_new_req),
+    JS_CFUNC_DEF("zsock_new_rep", 1, js_zmq_zsock_new_rep),
+    JS_CFUNC_DEF("zsock_new_dealer", 1, js_zmq_zsock_new_dealer),
+    JS_CFUNC_DEF("zsock_new_router", 1, js_zmq_zsock_new_router),
+    JS_CFUNC_DEF("zsock_new_push", 1, js_zmq_zsock_new_push),
+    JS_CFUNC_DEF("zsock_new_xpub", 1, js_zmq_zsock_new_xpub),
+    JS_CFUNC_DEF("zsock_new_xsub", 1, js_zmq_zsock_new_sub),
+    JS_CFUNC_DEF("zsock_new_pair", 1, js_zmq_zsock_new_pair),
+    JS_CFUNC_DEF("zsock_new_stream", 1, js_zmq_zsock_new_stream),
+    JS_CFUNC_DEF("zsock_new_pull", 1, js_zmq_zsock_new_pull),
+    JS_CFUNC_DEF("zsock_destroy", 1, js_zmq_zsock_destroy),
+    JS_CFUNC_DEF("zsock_connect", 2, js_zmq_zsock_connect),
+    JS_CFUNC_DEF("zsock_send", 2, js_zmq_zsock_send),
+    JS_CFUNC_DEF("zsock_recv", 1, js_zmq_zsock_recv),
+    JS_CFUNC_DEF("zsock_is", 1, js_zmq_zsock_is),
+    JS_CFUNC_DEF("zsock_resolve", 1, js_zmq_zsock_resolve),
+    JS_CFUNC_DEF("zsock_flush", 1, js_zmq_zsock_flush),
+    JS_CFUNC_DEF("zsock_unbind", 1, js_zmq_zsock_unbind)
 };
 
 

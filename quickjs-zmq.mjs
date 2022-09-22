@@ -122,7 +122,7 @@ export class Socket {
             try {
                 // console.log("Receive");
                 var data = zmq.recvSocket(this.socket);
-                // console.log(`Data: ${data}`);
+                console.log(`Data: ${data}`);
                 this.emit("data", data);
                 zmq.sendSocket(this.socket, "OK");
                 // console.log("After data");

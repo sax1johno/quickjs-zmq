@@ -97,11 +97,24 @@ export class Socket {
         }
     }
 
+    unbind(address) {
+        return new Promise((resolve, reject) => {
+            // CZMQ_EXPORT int
+            // zsock_unbind (zsock_t *self, const char *format, ...) CHECK_PRINTF (2);     
+            var rc = zsock_unbind(this.socket, address);
+            if (rc < 0) {
+                reject(`Failed with return code ${rc}`);
+            } else {
+                resolve();
+            }
+        })
+    }
+
     bind(address) {
         return new Promise((resolve, reject) => {
             var boundPort = zmq.zsock_bind(this.socket, address);
             if (boundPort >= 0) {
-                this.emit("connected");
+                this.emit("connected", {"port": "boundPort"});
                 this.port = boundPort;
                 resolve(returnValue);
             } else {
@@ -127,7 +140,7 @@ export class Socket {
                 var data = zmq.zsock_recv(this.socket);
                 // console.log(`Data: ${data}`);
                 this.emit("data", data);
-                zmq.sendSocket(this.socket, "OK");
+                // zmq.zsock_send(this.socket, "OK");
                 // console.log("After data");
             } catch (e) {
                 console.log(e);
@@ -138,7 +151,8 @@ export class Socket {
 
     connect(address) {
         return new Promise((resolve, reject) => {
-            var returnValue = zmq.connectSocket(this.socket, address);
+            console.log("Attempting to connect socket.")
+            var returnValue = zmq.zsock_connect(this.socket, address);
             console.log(`Socket connected returned with ${returnValue}`);
             if (returnValue == 0) {
                 this.emit("connected");
@@ -154,14 +168,14 @@ export class Socket {
         return new Promise((resolve, reject) => {
             // console.log("In send");
             console.log(`Sending ${JSON.stringify(message)}`);
-            var returnValue = zmq.sendSocket(this.socket, JSON.stringify(message));
+            var returnValue = zmq.zsock_send(this.socket, JSON.stringify(message));
             if (returnValue >= 0) {
                 // this.emit("data");
                 // 100ms timeout gives libzmq time to flush the message queue
                 // Ensures that quick running clients still send message.
                 setTimeout(() => {
                     resolve(returnValue);
-                }, 100);            
+                }, 100);
             } else {
                 this.emit("error", Socket.formatError(zmq_errno()));
                 reject(returnValue);
@@ -169,22 +183,4 @@ export class Socket {
         });
     }
     
-    getContextOption(optionName) {
-        return zmq.getContextOption(this.context, optionName)
-    }
-
-    setContextOption(optionName, optionValue) {
-        return zmq.setContextOption(this.context, optionName, optionValue);
-    }
-
-    getSocketOption(optionName) {
-        var optionValue;
-        var returnCode = zmq.getSocketOption(this.socket, optionName, optionValue);
-        return optionValue;
-    }
-
-    setSocketOption(optionName, optionValue) {
-        var returnCode = zmq.getSocketOption(this.socket, optionName, optionValue);
-        return returnCode;
-    }
 }
